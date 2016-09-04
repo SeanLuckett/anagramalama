@@ -9,6 +9,12 @@ describe 'Anagrams API' do
     expect(response.status).to be 201
   end
 
+  it 'gives information about what was added' do
+    post '/words.json', params: {words: %w(read ticketyboo cat)}
+    expect(json['added']).to match ['cat']
+    expect(json['rejected']).to match ['read', 'ticketyboo']
+  end
+
   it 'returns anagrams for a word' do
     expected_response = {anagrams: ['dear', 'dare']}.as_json
 
