@@ -37,4 +37,5 @@ describe 'Anagrams API' do
 
     expect(Anagram.count).to eq 0
   end
+
 end
