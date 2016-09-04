@@ -10,4 +10,9 @@ class WordsController < ApplicationController
     render status: 201
   end
 
+  def destroy
+    Anagram.find_by(word: params[:word]).delete
+    render status: 200
+  end
+
 end
