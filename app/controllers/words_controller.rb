@@ -11,8 +11,12 @@ class WordsController < ApplicationController
   end
 
   def destroy
-    Anagram.find_by(word: params[:word]).delete
+    Anagram.find_by(word: params[:word]).destroy
     render status: 200
+  end
+
+  def destroy_all
+    Anagram.delete_all
   end
 
 end

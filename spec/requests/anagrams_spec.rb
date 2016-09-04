@@ -30,4 +30,11 @@ describe 'Anagrams API' do
     get '/anagrams/read.json'
     expect(json['anagrams']).to eq ['dare']
   end
+
+  it 'deletes all words from corpus' do
+    delete '/words.json'
+    expect(response.status).to be 204
+
+    expect(Anagram.count).to eq 0
+  end
 end
