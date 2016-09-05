@@ -44,4 +44,22 @@ describe 'Anagrams API' do
     expect(Anagram.count).to eq 0
   end
 
+  it 'returns corpus details' do
+    post '/words.json', params: {words: %w(social acanth)}
+
+    get '/corpus/details.json'
+    expect(response.status).to be 200
+    expect(json).to eq({
+      corpus: {
+        count: 5,
+        lengths: {
+          min: 4,
+          max: 6,
+          avg: 4.8,
+          median: 4
+        }
+      }
+    }.as_json)
+  end
+
 end

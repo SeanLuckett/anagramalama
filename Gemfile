@@ -17,8 +17,9 @@ gem 'puma', '~> 3.0'
 group :development, :test do
   gem 'byebug', platform: :mri
   gem 'pry'
-  gem 'pry-rails'
-  gem 'rspec-rails'
+  gem 'pry-rails', '~>0.3.4'
+  gem 'rspec-rails', '~>3.5.2'
+  gem 'factory_girl_rails', '~>4.7.0'
 end
 
 group :development do
