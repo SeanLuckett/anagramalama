@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160904181347) do
+ActiveRecord::Schema.define(version: 20160906192807) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 20160904181347) do
     t.string   "sorted_word", null: false
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.integer  "length",      null: false
     t.index ["sorted_word"], name: "index_anagrams_on_sorted_word", using: :btree
   end
 

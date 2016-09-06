@@ -20,4 +20,11 @@ RSpec.describe Anagram, type: :model do
     expect { invalid_anagram.save }.not_to change { Anagram.count }
   end
 
+  it 'calculates word length' do
+    anagram = Anagram.new(word: 'bear', sorted_word: 'aber')
+    anagram.save
+    
+    expect(anagram.length).to eq 4
+  end
+
 end
