@@ -6,6 +6,9 @@ class Anagram < ApplicationRecord
   validates :word, uniqueness: true
   validates :sorted_word, presence: true
 
+  scope :shortest, -> { Anagram.order(length: :asc).limit(1).first }
+  scope :longest, -> { Anagram.order(length: :desc).limit(1).first }
+
   protected
 
   def calculate_word_length
