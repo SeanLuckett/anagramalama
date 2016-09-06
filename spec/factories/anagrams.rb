@@ -4,7 +4,7 @@ FactoryGirl.define do
     sorted_word 'aber'
 
     after :build do |anagram|
-      anagram.stub(:valid_word?)
+      allow(anagram).to receive(:valid_word?) { true }
     end
   end
 end
