@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Anagram, type: :model do
   it 'word is unique' do
-    Anagram.create(word: 'bear', sorted_word: 'aber')
-    anagram_dupe = Anagram.new(word: 'bear', sorted_word: 'aber')
+    create(:anagram)
+    anagram_dupe = build(:anagram, word: 'bear', sorted_word: 'aber')
 
     expect { anagram_dupe.save }.not_to change { Anagram.count }
   end
@@ -21,8 +21,7 @@ RSpec.describe Anagram, type: :model do
   end
 
   it 'calculates word length' do
-    anagram = Anagram.new(word: 'bear', sorted_word: 'aber')
-    anagram.save
+    anagram = create(:anagram, word: 'bear', sorted_word: 'aber')
 
     expect(anagram.length).to eq 4
   end
