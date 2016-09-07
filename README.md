@@ -71,7 +71,9 @@ HTTP/1.1 200 OK
 }
 ```
 
-#### Delete a word
+#### DELETE /words/:word.json
+**Description:** Deletes single word
+
 Request:
 ```shell
 curl -i -X DELETE http://localhost:3000/words/read.json
@@ -83,7 +85,8 @@ HTTP/1.1 200 OK
 ...
 ```
 
-#### Delete all words
+#### DELETE /words.json
+**Description:** Deletes all words in corpus
 Request:
 ```shell
 curl -i -X DELETE http://localhost:3000/words.json
@@ -100,6 +103,8 @@ First, I decided on a SQL data store mostly because it's familiar, robust, and p
 
 I started to implement this in Sinatra because it's a lightweight API requiring very few endpoints. If it had to scale much larger, however, Rails would still be a better choice. However, I primarily switched to Rails when I realized integrating Active Record with Sinatra was going to cost me a lot more time for very little value. So, I went with the more familiar and robust Rails. I created this project without mailers, as it doesn't need them. I also passed the `--api` flag to keep it as lightweight as possible.
 
+I added a couple enhancements. The `POST /words.json` endpoint checks submitted words against the dictionary. Also, it returns a list of the accepted and rejected words so the requester has a better idea of what got added.
+
 I opted not to use any JSON templating at this point because none of the endpoints were complex enough to warrant the overhead. Serializers aren't necessary, either, given the API's response requirements, though that warrants discussion. I prefer to develop light until a need shows itself.
 
 ## Encountered edge cases
@@ -107,3 +112,25 @@ I opted not to use any JSON templating at this point because none of the endpoin
 2. Anagram.rb is case insensitive, so Green and green are considered unique. We may want to change it; worth considering.
 
 ## Future features
+Following, are things to consider:
+
+**Foundation**
+1. A script to process dictionary.txt to generate a base corpus.
+2. A key/value store solution instead of SQL to store words on sorted-word keys (reverse index style)
+3. Search indexer over SQL store instead to speed up search and mimic key/value store idea above.
+4. An endpoint to add words to the dictionary and a faster data store for the dictionary.
+5. Authorization protecting at least:
+  * `DELETE /words/:word.json`
+  * `DELETE /words.json` and consider authorization for `POST /words.json`
+
+**Request/Response**
+1. `GET /anagrams/:word.json`
+  * Paging for  response.
+  * Default limit for the number of anagrams returned.
+2. `POST /words.json`
+  * Default limit for how many words can be submitted per request 
+  * Error messages for rejected words.
+  
+**Documentation**
+
+A service like [Apiary](http://apiary.io) to host and help with API design and endpoint documentation.
