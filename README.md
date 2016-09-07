@@ -1,4 +1,4 @@
-# Anagramala
+# Anagramalama
 
 This project is a code test submission for Ibotta's platform developer position. It is a very basic anagram API allowing users to:
 * Add words to the corpus
@@ -96,6 +96,14 @@ HTTP/1.1 204 No Content
 ```
 
 ## Design overview and trade-offs
+First, I decided on a SQL data store mostly because it's familiar, robust, and powerful. However, this is the sort of system that would work just as well with a key value store where the stored word is the key. Ultimately, I think the SQL database with and index on the sorted word is faster, but may not be fast enough to make the heavier overhead worth it in the long run.
 
+I started to implement this in Sinatra because it's a lightweight API requiring very few endpoints. If it had to scale much larger, however, Rails would still be a better choice. However, I primarily switched to Rails when I realized integrating Active Record with Sinatra was going to cost me a lot more time for very little value. So, I went with the more familiar and robust Rails. I created this project without mailers, as it doesn't need them. I also passed the `--api` flag to keep it as lightweight as possible.
+
+I opted not to use any JSON templating at this point because none of the endpoints were complex enough to warrant the overhead. Serializers aren't necessary, either, given the API's response requirements, though that warrants discussion. I prefer to develop light until a need shows itself.
+
+## Encountered edge cases
+1. `POST /words.json` always returns a 201, but it shouldn't if all words in the request are rejected.
+2. Anagram.rb is case insensitive, so Green and green are considered unique. We may want to change it; worth considering.
 
 ## Future features
