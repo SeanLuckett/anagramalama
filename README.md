@@ -71,6 +71,36 @@ HTTP/1.1 200 OK
 }
 ```
 
+#### GET /corpus/details.json
+**Description:** Returns the following corpus information:
+* Word count
+* Shortest word length
+* Longest word length
+* Average word length
+* Median word length
+
+Request:
+```shell
+curl -i http://localhost:3000/corpus/details.json
+```
+
+Response:
+```json
+HTTP/1.1 200 OK
+...
+{
+  "corpus":{
+    "count":3,
+    "lengths":{
+      "min":4,
+      "max":4,
+      "avg":4.0,
+      "median":4
+    }
+  }
+}
+```
+
 #### DELETE /words/:word.json
 **Description:** Deletes single word
 
@@ -110,6 +140,7 @@ I decided not to use any JSON templating libraries, for now, because none of the
 ## Encountered edge cases
 1. `POST /words.json` always returns a 201, but it shouldn't if all words in the request are rejected
 2. Anagram.rb is case insensitive, so Green and green are considered unique. We may want to change it; worth considering
+3. `GET /corpus/details.json` throws an error if the corpus is empty
 
 ## Future features
 Following, are things to consider:
@@ -132,5 +163,5 @@ Following, are things to consider:
   * Error messages for rejected words
   
 **Documentation**
-
-A service like [Apiary](http://apiary.io) to host and help with API design and endpoint documentation.
+1. Pick an API versioning scheme for making non-breaking improvements/changes.
+2. A service like [Apiary](http://apiary.io) to host and help with API design and endpoint documentation.
