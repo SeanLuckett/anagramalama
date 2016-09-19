@@ -12,7 +12,7 @@ class CorpusInspector
   def self.median_word_length
     anagram_list = Anagram.order(length: :asc)
 
-    if Anagram.count % 2 == 0
+    if anagram_list.count % 2 == 0
       median = avg_median(anagram_list)
     else
       median_position = word_count / 2 # Ruby "rounds" down
