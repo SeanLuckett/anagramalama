@@ -1,9 +1,11 @@
 class Anagram < ApplicationRecord
   DICTIONARY_PATH = Rails.root.join('app', 'fixtures', 'dictionary.txt')
 
-  before_save :valid_word?, :calculate_word_length
+  before_save :calculate_word_length
 
   validates :word, uniqueness: true
+  validate :valid_word?
+
   validates :sorted_word, presence: true
 
   scope :shortest, -> { Anagram.order(length: :asc).limit(1).first }
@@ -17,7 +19,7 @@ class Anagram < ApplicationRecord
 
   def valid_word?
     unless dictionary.word? word
-      throw(:abort)
+      errors.add(:word, "'#{word}' is not in the dictionary.")
     end
   end
 
