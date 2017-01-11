@@ -8,12 +8,14 @@ RSpec.describe Anagram, type: :model do
     expect { anagram_dupe.save }.not_to change { Anagram.count }
   end
 
-  it 'requires sorted_word field not be null' do
-    invalid_anagram = Anagram.new(word: 'bear')
+  it 'sorts the word by characters to store as sorted_word' do
+    anagram = Anagram.new(word: 'bear')
+    anagram.save
 
-    expect { invalid_anagram.save! }.to raise_error ActiveRecord::RecordInvalid
-    expect { invalid_anagram.save }.not_to change { Anagram.count }
+    expect(anagram).to be_valid
+    expect(anagram.sorted_word).to eq 'aber'
   end
+
 
   it 'only saves if valid word' do
     invalid_anagram = Anagram.new(word: 'tickityboo', sorted_word: 'blah')

@@ -1,21 +1,16 @@
 class Anagram < ApplicationRecord
   DICTIONARY_PATH = Rails.root.join('app', 'fixtures', 'dictionary.txt')
 
-  before_save :calculate_word_length
+  before_save ->{ self.length = word.length }
+  before_save ->{ self.sorted_word = word.chars.sort.join('') }
 
-  validates :word, uniqueness: true
+  validates :word, uniqueness: true, presence: true
   validate :valid_word?
-
-  validates :sorted_word, presence: true
 
   scope :shortest, -> { Anagram.order(length: :asc).limit(1).first }
   scope :longest, -> { Anagram.order(length: :desc).limit(1).first }
 
   protected
-
-  def calculate_word_length
-    self.length = word.length
-  end
 
   def valid_word?
     unless dictionary.word? word

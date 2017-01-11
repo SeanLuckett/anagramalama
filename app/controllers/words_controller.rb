@@ -5,7 +5,9 @@ class WordsController < ApplicationController
     rejected_words = []
 
     params[:words].each do |word|
-      if save_anagram? word
+      anagram = Anagram.new(word: word)
+
+      if anagram.save
         added_words.push word
       else
         rejected_words.push word
@@ -22,15 +24,6 @@ class WordsController < ApplicationController
 
   def destroy_all
     Anagram.delete_all
-  end
-
-  private
-
-  def save_anagram?(word)
-    sorted_word = word.chars.sort.join('')
-    anagram = Anagram.new(word: word, sorted_word: sorted_word)
-
-    anagram.save
   end
 
 end
